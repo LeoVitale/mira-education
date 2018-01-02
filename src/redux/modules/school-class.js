@@ -4,13 +4,11 @@ import { getClassStudents } from 'services/index.js';
 const LOADING_STUDENTS = 'mira/schoolclass/LOADING_STUDENTS';
 const LOADED_STUDENTS = 'mira/schoolclass/LOADED_STUDENTS';
 
-const LOADING_CLASS = 'mira/schoolclass/LOADING_CLASS';
 const SET_CLASS = 'mira/schoolclass/SET_CLASS';
 
 
 const initialState = {
   class: {},
-  loadingClass: false,
   students: [],
   loadingStudents: false
 }
@@ -18,15 +16,9 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
 
-    case LOADING_CLASS:
-      return {
-        ...state,
-        loadingClass: true
-      }
     case SET_CLASS:
       return {
         ...state,
-        loadingClass: false,
         class: action.payload
       }
     case LOADING_STUDENTS:
