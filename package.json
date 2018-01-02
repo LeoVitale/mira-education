@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack/client.dev.js --open",
+    "start:dev": "node server.js",
     "clean": "rimraf buildClient",
     "build": "webpack --config webpack/client.prod.js --color -p"
   },
@@ -30,6 +31,8 @@
     "rimraf": "^2.6.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.1",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1",
     "url-loader": "^0.6.2",
     "webpack": "^3.10.0",
     "webpack-dev-server": "^2.9.7",
@@ -37,6 +40,8 @@
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
     "jwt-decode": "^2.2.0",
     "moment": "^2.20.1",
     "normalize.css": "^7.0.0",

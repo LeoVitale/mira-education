@@ -6,6 +6,7 @@ import reduxThunk from 'redux-thunk';
 
 import reducers from '_redux/reducers';
 import Teacher from 'containers/teacher';
+import SchoolClass from 'containers/school-class';
 
 const createStoreWithMiddleware = applyMiddleware(reduxThunk)(createStore);
 const store = createStoreWithMiddleware(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
@@ -16,7 +17,10 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <Router>
-          <Route exact path="/" component={Teacher} />
+          <div>
+            <Route exact path="/" component={Teacher} />
+            <Route path="/schoolClass/:classid" component={SchoolClass} />
+          </div>
         </Router>
       </Provider>
     )

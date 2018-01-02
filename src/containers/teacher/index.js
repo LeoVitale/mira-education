@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { loadTeacher, loadClasses } from '_redux/modules/teacher';
 
 class Teacher extends Component {
@@ -20,10 +21,13 @@ class Teacher extends Component {
         <ul>
           {classes.map(item =>
             <li key={item.id}>
+            <Link to={`/schoolClass/${item.id}`}>
               <div>
                 <div>{item.id}</div>
                 <div>{item.discipline}</div>
               </div>
+            </Link>
+
             </li>)
           }
         </ul>
