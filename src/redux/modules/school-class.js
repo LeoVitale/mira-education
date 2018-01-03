@@ -8,7 +8,7 @@ const SET_CLASS = 'mira/schoolclass/SET_CLASS';
 
 
 const initialState = {
-  class: {},
+  classSession: {},
   students: [],
   loadingStudents: false
 }
@@ -19,7 +19,7 @@ export default (state = initialState, action) => {
     case SET_CLASS:
       return {
         ...state,
-        class: action.payload
+        classSession: action.payload
       }
     case LOADING_STUDENTS:
       return {
@@ -38,11 +38,11 @@ export default (state = initialState, action) => {
   }
 }
 
-export function setSchoolClass(_class) {
+export function setSchoolClass(classSession) {
   return dispatch => {
     dispatch({
       type: SET_CLASS,
-      payload: _class
+      payload: classSession
     })
   }
 }
@@ -52,7 +52,6 @@ export function loadClassStudents(schoolClassId) {
     dispatch({
       type: LOADING_STUDENTS
     })
-
     getClassStudents(schoolClassId)
       .then(response => {
         dispatch({
