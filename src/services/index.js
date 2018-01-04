@@ -24,8 +24,8 @@ export const getLessons = (schoolClassId) => {
 }
 
 //##### POST 	http://api-test.miraeducacao.com.br/schoolclass/{schoolClassId}/lesson
-export const newLesson = (schoolClassId) => {
-  return axios.post(`${ROOT_URL}/schoolclass/${schoolClassId}/lesson`);
+export const newLesson = (schoolClassId, lesson) => {
+  return axios.post(`${ROOT_URL}/schoolclass/${schoolClassId}/lesson`, {lesson});
 }
 
 //##### PUT 	http://api-test.miraeducacao.com.br/schoolclass/{schoolClassId}/lesson/{lessonId}
@@ -37,12 +37,3 @@ export const updateLesson = (schoolClassId, lessonId) => {
 export const deleteLessons = (schoolClassId, lessonId) => {
   return axios.delete(`${ROOT_URL}/schoolclass/${schoolClassId}/lesson/${lessonId}`);
 }
-
-
-// axios.interceptors.request.use(config => {
-//   config.headers = {
-//     'Access-Control-Allow-Origin': '*'
-//   }
-
-//   return config;
-// })

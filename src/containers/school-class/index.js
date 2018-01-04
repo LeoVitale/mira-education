@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { loadClassStudents, setSchoolClass } from '_redux/modules/school-class';
+import { loadClassStudents, setSchoolClass, updateStudent, saveLesson } from '_redux/modules/school-class';
 
 function getIsoDate() {
   let now = new Date();
@@ -17,68 +17,51 @@ function generateUUID() {
   return uuid;
 };
 
-
 class SchoolClass extends Component {
 
-  state = {
-    attendances: []
-  }
-
-  componentWillMount() {
+  componentDidMount() {
     const { match, classes, loadClassStudents, setSchoolClass } = this.props;
+    const schoolClass =  Object.assign({}, ...classes.filter(item => item.id === match.params.classid));
+    setSchoolClass(schoolClass);
     loadClassStudents(match.params.classid);
-    const schoolClass = classes.filter(item => item.id === match.params.classid);
-    setSchoolClass(...schoolClass);
   }
 
-  createSchoolClass = (schoolClassId, students) => {
+  toggleStudent = (studentId) => {
+    this.props.updateStudent(studentId);
+  }
 
+  saveLesson = () => {
+    const { classSession, students } = this.props;
     const attendances = students.map(student => {
-      return { studentId: student.id, status: 'ABSENCE' }
-    })
-
-    console.log('==============attendances======================');
-    console.log(attendances);
-    console.log('====================================');
-
-    const reduced = Object.assign({}, ...attendances.map(item => ({ [item['studentId']]: item })))
-
-    console.log('===============reduced=====================');
-    console.log(reduced);
-    console.log('====================================');
-
-    const arr = Object.keys(reduced).map(function (key) { return reduced[key]; });
-
-    console.log('================arr====================');
-    console.log(arr);
-    console.log('====================================');
-
-    const obj = {
-      'id': generateUUID(),
-      'date': getIsoDate(),
-      'schoolClassId': schoolClassId,
-      'lessonOrder': 1,
-      'attendances': attendances
-    }
-
-    console.log(obj);
-  }
-
-  updateAttendances = (attendance) => {
-    const attendances = { ...this.state.attendances };
-
-
+      return {studentId: student.studentId, status: student.status}
+    });
+    const lesson = {
+      id: generateUUID(),
+      date: getIsoDate(),
+      schoolClassId: classSession.id,
+      lessonOrder: 1,
+      attendances: attendances
+   }
+   this.props.saveLesson(classSession.id, lesson);
   }
 
   render() {
-
-    const { schoolClass } = this.props;
-
-    schoolClass.students.length > 0 && this.createSchoolClass(this.props.match.params.classid, schoolClass.students)
-
+    const { schoolClass, students, classSession } = this.props;
     return (
       <div>
-        <h1>{this.props.match.params.classid}</h1>
+        <h1>{classSession.id}</h1>
+        <div>
+          <ul>
+            {
+              students.map(student => (
+                <li key={student.studentId} onClick={() => this.toggleStudent(student.studentId)}>
+                  {student.number} - {student.name} <span>{student.status}</span>
+                </li>
+              ))
+            }
+          </ul>
+          <button onClick={this.saveLesson}>Save</button>
+        </div>
       </div>
     );
   }
@@ -89,12 +72,13 @@ const mapStateToProps = (state) => {
 
   return {
     classes: state.teacher.classes,
-    schoolClass: state.schoolClass
+    students: state.schoolClass.students,
+    classSession: state.schoolClass.classSession
   }
 }
 
 const mapDispatchToProps = {
-  loadClassStudents, setSchoolClass
+  loadClassStudents, setSchoolClass, updateStudent, saveLesson
 }
 
 

@@ -1,6 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 const bodyParser = require('body-parser');
+const CircularJSON = require('circular-json');
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -46,12 +47,18 @@ app.get('/schoolclass/:schollClassId/lessons', (req, res) => {
     });
 })
 
-app.post('/schoolclass/:schollClassId/lesson', () => {
+app.post('/schoolclass/:schollClassId/lesson', (req, res, next) => {
   const schollClassId = req.params.schollClassId;
-  axios.post(`${ROOT_URL}/schoolclass/${schollClassId}/lesson`)
+  const lesson = req.body.lesson;
+
+  axios.post(`${ROOT_URL}/schoolclass/${schollClassId}/lesson`, lesson)
     .then(response => {
-      res.send(response.data);
-    });
+      res.status(200).send(CircularJSON.stringify(response));
+      next();
+    }).catch(error => {
+      res.status(error.response.status).send(error.response.data);
+      next();
+    });;
 })
 
 app.put('/schoolclass/:schoolClassId/lesson/:lessonId', (req, res) => {
@@ -60,7 +67,7 @@ app.put('/schoolclass/:schoolClassId/lesson/:lessonId', (req, res) => {
   axios.put(`${ROOT_URL}/schoolclass/${schoolClassId}/lesson/${lessonId}`)
     .then(response => {
       res.send(response.data);
-    });
+    })
 })
 
 app.delete('/schoolclass/:schoolClassId/lesson/:lessonId', () => {

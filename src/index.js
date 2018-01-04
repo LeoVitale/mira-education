@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import App from 'components/app';
 
+import './sass/global.scss';
+
 
 const render = Component => {
   ReactDOM.render(

@@ -1,11 +1,12 @@
-import { getClassStudents } from 'services/index.js';
+import { getClassStudents, newLesson } from 'services/index.js';
 
 
 const LOADING_STUDENTS = 'mira/schoolclass/LOADING_STUDENTS';
 const LOADED_STUDENTS = 'mira/schoolclass/LOADED_STUDENTS';
 
-const SET_CLASS = 'mira/schoolclass/SET_CLASS';
+const UPDATE_STUDENT = 'mira/schoolclass/UPDATE_STUDENT';
 
+const SET_CLASS = 'mira/schoolclass/SET_CLASS';
 
 const initialState = {
   classSession: {},
@@ -32,6 +33,16 @@ export default (state = initialState, action) => {
         loadingStudents: false,
         students: action.payload
       }
+    case UPDATE_STUDENT:
+      return {
+        ...state,
+        students: state.students.filter(student => {
+          if(student.studentId === action.payload) {
+            student.status = (student.status === 'ABSENCE') ? 'PRESENT' : 'ABSENCE'
+          }
+          return student;
+        })
+      }
 
     default:
       return state
@@ -56,9 +67,42 @@ export function loadClassStudents(schoolClassId) {
       .then(response => {
         dispatch({
           type: LOADED_STUDENTS,
-          payload: response.data
+          payload: response.data.map(student => {
+            return {
+              studentId: student.id,
+              name: student.name,
+              schoolClassId: student.schoolClassId,
+              number: student.number,
+              status: 'PRESENT'
+            }
+          })
         })
       })
       .catch(error => console.log(error))
+  }
+}
+
+export function saveLesson(schoolClassId, attendance) {
+  return dispatch => {
+    newLesson(schoolClassId, attendance)
+      .then(response => {
+        console.log('====================================');
+        console.log(response);
+        console.log('====================================');
+      }).catch(error => {
+        console.log('===========error=========================');
+        console.log(error.response);
+        console.log('====================================');
+      })
+  }
+}
+
+
+export function updateStudent(id) {
+  return dispatch => {
+    dispatch({
+      type: UPDATE_STUDENT,
+      payload: id
+    })
   }
 }
