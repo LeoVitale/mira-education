@@ -1,4 +1,14 @@
 .teacher {
   background: rgba(0, 60, 76, 1);
   background: linear-gradient(to bottom, rgba(0, 60, 76, 1) 0%, rgba(0, 79, 107, 1) 100%);
+  color: $opacity-70-white;
+  padding: 20px 30px;
+  width: 300px;
+  h2 {
+    text-align: center;
+    font-family: 'Helvetica Neue';
+    font-weight: 100;
+    font-style: normal;
+    color: $white;
+  }
 }

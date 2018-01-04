@@ -1,0 +1,11 @@
+.class-link {
+  &:first-child {
+    border-top: 1px solid $opacity-20-white;
+  }
+  border-bottom: 1px solid $opacity-20-white;
+  a {
+    padding: 15px 20px;
+    display: block;
+    color: $opacity-70-white;
+  }
+}

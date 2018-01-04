@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+
 import { loadTeacher, loadClasses } from '_redux/modules/teacher';
 
+import ClassLink from 'components/class-link';
 import styles from './styles.scss';
 
 class Teacher extends Component {
@@ -23,14 +24,7 @@ class Teacher extends Component {
         <h2>{teacher && teacher.name}</h2>
         <p><small>Selecione uma turma:</small></p>
         <ul>
-          {classes.map(item =>
-            <li key={item.id}>
-              <Link to={`/schoolClass/${item.id}`}>
-                <div>
-                  <div><span>{item.level} {item.term} - {item.period} - {item.discipline}</span></div>
-                </div>
-              </Link>
-            </li>)
+          {classes.map(item => <ClassLink key={item.id} item={item}/>)
           }
         </ul>
       </div>
