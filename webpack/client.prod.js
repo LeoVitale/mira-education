@@ -77,7 +77,8 @@ module.exports = {
       img: path.resolve('src/images'),
       modules: path.resolve('node_modules'),
       services: path.resolve('src/services'),
-      _redux: path.resolve('src/redux')
+      _redux: path.resolve('src/redux'),
+      utils: path.resolve('src/utils')
     },
     modules: [path.resolve('src/'), 'node_modules'],
     extensions: ['.js', '.css', '.scss']

@@ -1,0 +1,35 @@
+.overlay-modal {
+  top: 0;
+  left: 0;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: $black-light-opacity;
+  z-index: 1;
+}
+
+.modal {
+  padding: 20px 10px 10px;
+  text-align: center;
+  position: absolute;
+  width: 300px;
+  background-color: $white;
+  border-radius: 8px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%) scale(0);
+  transition: transform cubic-bezier(0.075, 0.82, 0.165, 1) .8s;
+  &.open {
+    transform: translate(-50%,-50%) scale(1);
+  }
+  .message {
+    padding: 20px 0;
+  }
+  .close-button {
+    cursor: pointer;
+    border: 0;
+    width: 100%;
+    border-top: 1px solid $black-light-opacity;
+    padding: 15px 10px 5px;
+  }
+}

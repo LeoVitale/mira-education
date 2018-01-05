@@ -2,24 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Header from 'components/header';
 import Student from 'components/student';
-import { loadClassStudents, setSchoolClass, updateStudent, saveLesson } from '_redux/modules/school-class';
+import Modal from 'components/modal';
+import { loadClassStudents, setSchoolClass, updateStudent, saveLesson, resetLesson } from '_redux/modules/school-class';
+import { getIsoDate, generateUUID } from 'utils';
 
 import styles from './styles.scss';
-
-function getIsoDate() {
-  let now = new Date();
-  return new Date(now).toISOString();
-}
-
-function generateUUID() {
-  let d = new Date().getTime();
-  const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    const r = (d + Math.random() * 16) % 16 | 0;
-    d = Math.floor(d / 16);
-    return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-  });
-  return uuid;
-};
 
 class SchoolClass extends Component {
 
@@ -30,6 +17,9 @@ class SchoolClass extends Component {
     loadClassStudents(match.params.classid);
   }
 
+  closeModal = () =>{
+    this.props.resetLesson();
+  }
   toggleStudent = (studentId) => {
     this.props.updateStudent(studentId);
   }
@@ -50,7 +40,8 @@ class SchoolClass extends Component {
   }
 
   render() {
-    const { schoolClass, students, classSession } = this.props;
+    const { schoolClass, students, classSession, savingLesson, savedLesson } = this.props;
+    const { openModal } = this.state;
     return (
       <div className={styles.schoolClass}>
         <Header classSession={classSession}/>
@@ -64,23 +55,25 @@ class SchoolClass extends Component {
           </ul>
           <button className={styles.saveButton} onClick={this.saveLesson}>Salvar</button>
         </div>
+        <Modal isOpen={savedLesson} message={'Chamada salva com sucesso!'} btnAction={this.closeModal}/>
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  console.log(state);
 
   return {
     classes: state.teacher.classes,
     students: state.schoolClass.students,
-    classSession: state.schoolClass.classSession
+    classSession: state.schoolClass.classSession,
+    savingLesson: state.schoolClass.savingLesson,
+    savedLesson: state.schoolClass.savedLesson
   }
 }
 
 const mapDispatchToProps = {
-  loadClassStudents, setSchoolClass, updateStudent, saveLesson
+  loadClassStudents, setSchoolClass, updateStudent, saveLesson, resetLesson
 }
 
 
