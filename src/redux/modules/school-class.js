@@ -26,6 +26,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loadingStudents: true,
+        students: []
       }
     case LOADED_STUDENTS:
       return {
@@ -86,17 +87,12 @@ export function saveLesson(schoolClassId, attendance) {
   return dispatch => {
     newLesson(schoolClassId, attendance)
       .then(response => {
-        console.log('====================================');
         console.log(response);
-        console.log('====================================');
       }).catch(error => {
-        console.log('===========error=========================');
         console.log(error.response);
-        console.log('====================================');
       })
   }
 }
-
 
 export function updateStudent(id) {
   return dispatch => {

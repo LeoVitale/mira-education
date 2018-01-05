@@ -24,8 +24,7 @@ class Teacher extends Component {
         <h2>{teacher && teacher.name}</h2>
         <p><small>Selecione uma turma:</small></p>
         <ul>
-          {classes.map(item => <ClassLink key={item.id} item={item}/>)
-          }
+          {classes.map(item => <ClassLink key={item.id} item={item}/>)}
         </ul>
       </div>
     );

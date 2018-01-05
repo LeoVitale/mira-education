@@ -1,12 +1,14 @@
 @import './fonts.scss';
 @import 'modules/normalize.css';
 
-body {
-  font-family: 'Helvetica Neue';
-  font-weight: 300;
-  font-style: normal;
+* {
+  outline: none;
 }
-
+html,
+body {
+  height: 100%;
+  @include font-normal();
+}
 
 ul {
   padding: 0;
@@ -17,4 +19,10 @@ li {
 }
 a {
   text-decoration: none;
+}
+
+:global {
+  #app{
+    height: 100%;
+  }
 }

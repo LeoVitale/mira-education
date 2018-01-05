@@ -1,0 +1,21 @@
+.student {
+  cursor: pointer;
+  position: relative;
+  padding: 10px;
+  color: $black-light;
+  border-bottom: 1px solid $black-light-opacity;
+  transition: background-color cubic-bezier(0.075, 0.82, 0.165, 1) .5s;
+  &:hover{
+    background-color: #f0f0f0;
+  }
+  span {
+    vertical-align: middle;
+  }
+  img {
+    position: absolute;
+    right: 20px;
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+  }
+}

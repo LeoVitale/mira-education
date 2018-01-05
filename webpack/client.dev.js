@@ -70,7 +70,7 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              data: '@import "variables/_variables.scss";',
+              data: '@import "utils/index.scss";',
               includePaths: [path.resolve('./src/sass/')],
               sourceMap: true,
             }

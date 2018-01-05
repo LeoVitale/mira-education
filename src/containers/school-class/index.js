@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Header from 'components/header';
+import Student from 'components/student';
 import { loadClassStudents, setSchoolClass, updateStudent, saveLesson } from '_redux/modules/school-class';
+
+import styles from './styles.scss';
 
 function getIsoDate() {
   let now = new Date();
@@ -48,19 +52,17 @@ class SchoolClass extends Component {
   render() {
     const { schoolClass, students, classSession } = this.props;
     return (
-      <div>
-        <h1>{classSession.id}</h1>
-        <div>
+      <div className={styles.schoolClass}>
+        <Header classSession={classSession}/>
+        <div className={styles.studentList}>
           <ul>
             {
               students.map(student => (
-                <li key={student.studentId} onClick={() => this.toggleStudent(student.studentId)}>
-                  {student.number} - {student.name} <span>{student.status}</span>
-                </li>
+                <Student key={student.studentId} student={student} toggleStudent={this.toggleStudent}/>
               ))
             }
           </ul>
-          <button onClick={this.saveLesson}>Save</button>
+          <button className={styles.saveButton} onClick={this.saveLesson}>Salvar</button>
         </div>
       </div>
     );

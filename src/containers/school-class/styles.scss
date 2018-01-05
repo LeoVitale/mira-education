@@ -1,0 +1,26 @@
+.school-class {
+  position: relative;
+  height: 100%;
+  .student-list {
+    margin: -16px 0;
+    padding: 0 20px;
+    height: 100%;
+    position: relative;
+  }
+  .save-button {
+    cursor: pointer;
+    bottom: 0;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: $orange;
+    color: $white;
+    text-transform: uppercase;
+    transition: background-color cubic-bezier(0.075, 0.82, 0.165, 1) .5s;
+    @include font-light();
+    &:hover {
+      background-color: $orange-dark;
+    }
+  }
+}
