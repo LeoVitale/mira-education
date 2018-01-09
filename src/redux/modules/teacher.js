@@ -6,6 +6,7 @@ const LOADED_TEACHER = 'mira/teacher/LOADED_TEACHER';
 const LOADING_CLASSES = 'mira/teacher/LOADING_CLASSES';
 const LOADED_CLASSES = 'mira/teacher/LOADED_CLASSES';
 
+const LOADING_LESSONS = 'mira/teacher/LOADING_LESSONS';
 const LOADED_LESSONS = 'mira/teacher/LOADED_LESSONS';
 
 const initialState = {
@@ -13,7 +14,8 @@ const initialState = {
   loading: false,
   classes: [],
   loadingClasses: false,
-  lessons: {}
+  lessons: {},
+  loadingLessons: false
 }
 
 export default (state = initialState, action) => {
@@ -41,9 +43,15 @@ export default (state = initialState, action) => {
         loadingClasses: false,
         classes: action.payload
       }
+    case LOADING_LESSONS:
+      return {
+        ...state,
+        loadinLessons: true
+      }
     case LOADED_LESSONS:
       return {
         ...state,
+        loadinLessons: false,
         lessons: {...state.lessons, ...action.payload}
       }
 
@@ -89,6 +97,9 @@ export function loadClasses(teacherId) {
 
 export function getClassLessons(schoolClassId) {
   return dispatch => {
+    dispatch({
+      type: LOADING_LESSONS
+    })
     getLessons(schoolClassId)
       .then(response => {
         dispatch({
