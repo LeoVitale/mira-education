@@ -41,7 +41,6 @@ class SchoolClass extends Component {
 
   render() {
     const { schoolClass, students, classSession, savingLesson, savedLesson } = this.props;
-    const { openModal } = this.state;
     return (
       <div className={styles.schoolClass}>
         <Header classSession={classSession}/>

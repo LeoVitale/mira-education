@@ -20,7 +20,7 @@ export const getClassStudents = (schoolClassId) => {
 
 //##### GET 	http://api-test.miraeducacao.com.br/schoolclass/{schoolClassId}/lessons
 export const getLessons = (schoolClassId) => {
-  return axios.get(`${ROOT_URL}/schoolclass/${schoolClassId}/lessons`);
+  return axios.post(`${ROOT_URL}/schoolclass/${schoolClassId}/lessons`);
 }
 
 //##### POST 	http://api-test.miraeducacao.com.br/schoolclass/{schoolClassId}/lesson

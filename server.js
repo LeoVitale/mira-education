@@ -39,9 +39,9 @@ app.get('/students/', (req, res) => {
     });
 })
 
-app.get('/schoolclass/:schollClassId/lessons', (req, res) => {
+app.post('/schoolclass/:schollClassId/lessons', (req, res) => {
   const schollClassId = req.params.schollClassId;
-  axios.get(`${ROOT_URL}/schoolclass/${schollClassId}/lessons`)
+  axios.post(`${ROOT_URL}/schoolclass/${schollClassId}/lessons`)
     .then(response => {
       res.send(response.data);
     });
