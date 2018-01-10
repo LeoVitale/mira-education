@@ -24,12 +24,16 @@
   }
   .message {
     padding: 20px 0;
+    color: $black-light;
   }
-  .close-button {
+  a,
+  button {
+    display: block;
     cursor: pointer;
     border: 0;
     width: 100%;
     border-top: 1px solid $black-light-opacity;
-    padding: 15px 10px 5px;
+    color: $black-light;
+    padding: 10px 10px 10px;
   }
 }

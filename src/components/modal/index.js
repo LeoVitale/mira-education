@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import styles from './styles.scss';
 
 class Modal extends Component {
-  state = {
-    openModal:false
+  constructor(props) {
+    super(props);
+    this.state = {
+      openModal:false
+    }
   }
 
   render() {
-    const {isOpen, message, btnAction} = this.props;
+    const {isOpen, message} = this.props;
     if(!isOpen){
       return null;
     }
@@ -16,7 +19,7 @@ class Modal extends Component {
       <div className={styles.overlayModal}>
         <div className={`${styles.modal} ${isOpen ? styles.open : ''}`}>
           <p className={styles.message}>{message}</p>
-          <button className={styles.closeButton} onClick={() => btnAction()}>Ok</button>
+          {this.props.children}
         </div>
       </div>
     );

@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
+import Modal from 'components/modal';
 import { loadTeacher, getClassLessons } from '_redux/modules/teacher';
 
 import ClassLink from 'components/class-link';
@@ -19,47 +20,38 @@ class Teacher extends Component {
 
   componentWillReceiveProps(nextProps) {
     const lessons = nextProps.lessons[this.state.schoolClassId];
+
     if (lessons) {
       this.setState({ warningModal: lessons.length > 0 ? true : false });
     }
   }
 
   loadLessons = (schoolClassId) => {
-    console.log('==============loadLessons======================');
-    console.log(schoolClassId);
-    console.log('====================================');
     this.setState({ schoolClassId });
     this.props.getClassLessons(schoolClassId);
   }
 
-  setUpdateLesson = () => {
-
-  }
-
-  newLesson = () => {
-
-  }
-
   redirectClass = (loadingLessons, lessons) => {
-    const {schoolClassId} = this.state;
-    console.log('==============redirectClass======================');
-    console.log(schoolClassId);
-    console.log('====================================');
-
-    if(loadingLessons) {
+    const { schoolClassId } = this.state;
+    if (loadingLessons) {
       return <div>carregando lições</div>
     }
-    if (lessons[schoolClassId]){
-      if(!loadingLessons && lessons[schoolClassId].length > 0) {
-        return <div>tem apontamento nessa poha</div>
-      } else {
-        return <div>não tem lição, então pode criar uma</div>
+    if (lessons[schoolClassId]) {
+      if (!loadingLessons && lessons[schoolClassId].length > 0) {
+        return true;
+      } else if (!loadingLessons && lessons[schoolClassId].length === 0) {
+        return <Redirect push to={{
+          pathname: `/schoolClass/${schoolClassId}`,
+          state: { newLesson: true, lessonId: '' }
+        }} />
       }
     }
   }
 
   render() {
     const { loadClasses, teacher, classes, lessons, loadingLessons } = this.props;
+    const { warningModal, schoolClassId } = this.state;
+    const lastLesson = lessons[schoolClassId] && lessons[schoolClassId][lessons[schoolClassId].length - 1];
 
     return (
       <div className={styles.teacher}>
@@ -70,15 +62,20 @@ class Teacher extends Component {
         <p><small>Selecione uma turma:</small></p>
         <ul>
           {classes.map(item => <ClassLink loadLessons={this.loadLessons} key={item.id} item={item} />)}
-          {classes.map(item => {
-            return <div key={item.id} onClick={() => this.loadLessons(item.id)}>{item.discipline}</div>
-          })}
         </ul>
         {this.redirectClass(loadingLessons, lessons)}
-        <div>
-          <button onClick={this.setUpdateLesson}>UPDATE LESSON</button>
-          <button onClick={this.newLesson}>NEW LESSON</button>
-        </div>
+        <Modal isOpen={warningModal} message={'Você já possui um apontamento para esta aula, mas você pode atualizar a ultima aula ou criar uma nova!'}>
+          <Fragment>
+            <Link to={{
+              pathname: `/schoolClass/${schoolClassId}`,
+              state: { newLesson: false, lessonId: lastLesson && lastLesson.id }
+            }}>Atualizar Chamada</Link>
+            <Link to={{
+              pathname: `/schoolClass/${schoolClassId}`,
+              state: { newLesson: true, lessonId: '' }
+            }}>Nova Chamada</Link>
+          </Fragment>
+        </Modal>
       </div>
     );
   }
@@ -97,6 +94,5 @@ const mapDispatchToProps = {
   loadTeacher,
   getClassLessons
 }
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Teacher);

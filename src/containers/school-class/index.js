@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import Header from 'components/header';
 import Student from 'components/student';
@@ -54,7 +54,11 @@ class SchoolClass extends Component {
           </ul>
           <button className={styles.saveButton} onClick={this.saveLesson}>Salvar</button>
         </div>
-        <Modal isOpen={savedLesson} message={'Chamada salva com sucesso!'} btnAction={this.closeModal}/>
+        <Modal isOpen={savedLesson} message={'Chamada salva com sucesso!'}>
+          <Fragment>
+            <button onClick={this.closeModal} className={styles.closeButton}>Ok</button>
+          </Fragment>
+        </Modal>
       </div>
     );
   }
