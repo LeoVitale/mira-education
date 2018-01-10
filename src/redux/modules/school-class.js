@@ -1,4 +1,4 @@
-import { getClassStudents, newLesson } from 'services/index.js';
+import { getClassStudents, newLesson, updateLesson } from 'services/index.js';
 
 
 const LOADING_STUDENTS = 'mira/schoolclass/LOADING_STUDENTS';
@@ -9,6 +9,11 @@ const UPDATE_STUDENT = 'mira/schoolclass/UPDATE_STUDENT';
 const SAVING_LESSON = 'mira/schoolclass/SAVING_LESSON';
 const SAVING_LESSON_ERROR = 'mira/schoolclass/SAVING_LESSON_ERROR';
 const SAVED_LESSON = 'mira/schoolclass/SAVED_LESSON';
+
+const UPDATING_LESSON = 'mira/schoolclass/UPDATING_LESSON';
+const UPDATING_LESSON_ERROR = 'mira/schoolclass/UPDATING_LESSON_ERROR';
+const UPDATED_LESSON = 'mira/schoolclass/UPDATED_LESSON';
+
 const RESET_LESSON = 'mira/schoolclass/RESET_LESSON';
 
 const SET_CLASS = 'mira/schoolclass/SET_CLASS';
@@ -18,7 +23,9 @@ const initialState = {
   students: [],
   loadingStudents: false,
   savingLesson: false,
-  savedLesson: false
+  savedLesson: false,
+  updatingLesson: false,
+  updatedLesson: false
 }
 
 export default (state = initialState, action) => {
@@ -67,7 +74,27 @@ export default (state = initialState, action) => {
       return {
         ...state,
         savingLesson: false,
-        savedLesson: false
+        savedLesson: false,
+        updatingLesson: false,
+        updatedLesson: false
+      }
+    case UPDATING_LESSON:
+      return {
+        ...state,
+        updatingLesson: true,
+        updatedLesson: false
+      }
+    case UPDATED_LESSON:
+      return {
+        ...state,
+        updatingLesson: false,
+        updatedLesson: true
+      }
+    case UPDATING_LESSON_ERROR:
+      return {
+        ...state,
+        updatingLesson: false,
+        updatedLesson: false
       }
     default:
       return state
@@ -121,6 +148,26 @@ export function saveLesson(schoolClassId, attendance) {
       }).catch(error => {
         dispatch({
           type: SAVING_LESSON_ERROR
+        })
+        console.log(error.response);
+      })
+  }
+}
+
+export function editLesson(schoolClassId, lessonId, attendance) {
+
+  return dispatch => {
+    dispatch({
+      type: UPDATING_LESSON
+    })
+    updateLesson(schoolClassId, lessonId, attendance)
+      .then(response => {
+        dispatch({
+          type: UPDATED_LESSON
+        })
+      }).catch(error => {
+        dispatch({
+          type: UPDATING_LESSON_ERROR
         })
         console.log(error.response);
       })

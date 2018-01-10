@@ -42,7 +42,7 @@ class Teacher extends Component {
       } else if (!loadingLessons && lessons[schoolClassId].length === 0) {
         return <Redirect push to={{
           pathname: `/schoolClass/${schoolClassId}`,
-          state: { newLesson: true, lessonId: '' }
+          state: { newLesson: true, lessonId: '', lessonOrder:0 }
         }} />
       }
     }
@@ -68,11 +68,11 @@ class Teacher extends Component {
           <Fragment>
             <Link to={{
               pathname: `/schoolClass/${schoolClassId}`,
-              state: { newLesson: false, lessonId: lastLesson && lastLesson.id }
+              state: { newLesson: false, lessonId: lastLesson && lastLesson.id, lessonOrder: lastLesson && lastLesson.lessonOrder }
             }}>Atualizar Chamada</Link>
             <Link to={{
               pathname: `/schoolClass/${schoolClassId}`,
-              state: { newLesson: true, lessonId: '' }
+              state: { newLesson: true, lessonId: '', lessonOrder: lastLesson && lastLesson.lessonOrder}
             }}>Nova Chamada</Link>
           </Fragment>
         </Modal>

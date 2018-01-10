@@ -29,8 +29,8 @@ export const newLesson = (schoolClassId, lesson) => {
 }
 
 //##### PUT 	http://api-test.miraeducacao.com.br/schoolclass/{schoolClassId}/lesson/{lessonId}
-export const updateLesson = (schoolClassId, lessonId) => {
-  return axios.put(`${ROOT_URL}/schoolclass/${schoolClassId}/lesson/${lessonId}`);
+export const updateLesson = (schoolClassId, lessonId, lesson) => {
+  return axios.put(`${ROOT_URL}/schoolclass/${schoolClassId}/lesson/${lessonId}` , {lesson});
 }
 
 //##### DELETE	http://api-test.miraeducacao.com.br/schoolclass/{schoolClassId}/lesson/{lessonId}

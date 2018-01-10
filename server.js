@@ -10,6 +10,7 @@ app.use(bodyParser.urlencoded({
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
   next();
 });
 
@@ -39,35 +40,40 @@ app.get('/students/', (req, res) => {
     });
 })
 
-app.post('/schoolclass/:schollClassId/lessons', (req, res) => {
-  const schollClassId = req.params.schollClassId;
-  axios.post(`${ROOT_URL}/schoolclass/${schollClassId}/lessons`)
+app.post('/schoolclass/:schoolClassId/lessons', (req, res) => {
+  const schoolClassId = req.params.schoolClassId;
+  axios.post(`${ROOT_URL}/schoolclass/${schoolClassId}/lessons`)
     .then(response => {
       res.send(response.data);
     });
 })
 
-app.post('/schoolclass/:schollClassId/lesson', (req, res, next) => {
-  const schollClassId = req.params.schollClassId;
+app.post('/schoolclass/:schoolClassId/lesson', (req, res, next) => {
+  const schoolClassId = req.params.schoolClassId;
   const lesson = req.body.lesson;
 
-  axios.post(`${ROOT_URL}/schoolclass/${schollClassId}/lesson`, lesson)
+  axios.post(`${ROOT_URL}/schoolclass/${schoolClassId}/lesson`, lesson)
     .then(response => {
       res.status(200).send(CircularJSON.stringify(response));
       next();
     }).catch(error => {
       res.status(error.response.status).send(error.response.data);
       next();
-    });;
+    });
 })
 
 app.put('/schoolclass/:schoolClassId/lesson/:lessonId', (req, res) => {
-  const schollClassId = req.params.schollClassId;
+  const schoolClassId = req.params.schoolClassId;
   const lessonId = req.params.lessonId;
-  axios.put(`${ROOT_URL}/schoolclass/${schoolClassId}/lesson/${lessonId}`)
+  const lesson = req.body.lesson;
+
+  axios.put(`${ROOT_URL}/schoolclass/${schoolClassId}/lesson/${lessonId}`, lesson)
     .then(response => {
       res.send(response.data);
-    })
+    }).catch(error => {
+      res.status(error.response.status).send(error.response.data);
+      next();
+    });
 })
 
 app.delete('/schoolclass/:schoolClassId/lesson/:lessonId', () => {

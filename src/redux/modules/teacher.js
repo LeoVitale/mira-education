@@ -46,7 +46,8 @@ export default (state = initialState, action) => {
     case LOADING_LESSONS:
       return {
         ...state,
-        loadinLessons: true
+        loadinLessons: true,
+        lessons: {}
       }
     case LOADED_LESSONS:
       return {
